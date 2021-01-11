@@ -1,38 +1,339 @@
-.App {
+html {
+  --appBackground: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8));
+  --selectionPanelBackground: linear-gradient(rgba(235, 220, 250, 0.8), rgba(235, 220, 250, 0.8));
+  --modalBackground: linear-gradient(rgba(235, 220, 250, 0.7), rgba(235, 220, 250, 0.7));
+  --buttonBackground: linear-gradient(rgba(235, 220, 250, 0.8), rgba(235, 220, 250, 0.8));
+  --buttonBackgroundHover: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9));
+
+  --statNode: rgb(30, 20, 255);
+  --moveNode: rgb(55, 138, 3);
+  --moveEffectNode: rgb(150, 4, 4);
+  --syncNode: rgb(2, 108, 233);
+  --passiveNode: rgb(210, 155, 0);
+
+  --hexOutline: rgb(30, 201, 102);
+  --hexText: rgb(15, 255, 222);
+}
+
+/* ----- Layout ----- */
+body {
+  margin: 0;
+  font-family: Arial;
+}
+
+.skillGrid {
+	margin: 0;
+  height: 1000px;
+  background: var(--appBackground);
+}
+
+.noselect {
+  /* non selectable text */
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+.columnLeft {
+  float: left; 
+  width: 22%;
+  height: 100%;
+  overflow: auto;
+}
+
+.columnMiddle {
+  display: inline-block; 
+  width: 55%;
+  height: 100%;
+}
+
+.columnRight {
+  float: right;
+  width: 22%;
+  height: 100%; 
+  overflow: auto;
+}
+
+/* ----- React Tooltip ----- */
+.hoverData {
+  font-size: 1.3em;
+}
+
+.hoverData ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ----- Menu Button ----- */
+.menuBar button, select {
+  display: block;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+  font-size: 1.6em;
+  background: var(--buttonBackground);
+  border: 1px solid white;
+  border-radius: 10px;
+}
+
+.menuBar button:hover, select:hover {
+  background: var(--buttonBackgroundHover);
+}
+
+/* ----- Save Build Modal ----- */
+.saveModal {
+  background: var(--modalBackground);
+  height: 100%;
+}
+
+.saveBuildClose {
+  float: right;
+  width: 10%;
+  height: 15%;
+  font-size: 1.5em;
+  background: var(--buttonBackground);
+  border-radius: 10px;
+}
+
+.saveBuildClose:hover {
+  background: var(--buttonBackgroundHover);
+}
+
+.saveBuildTitle {
+  clear: both;
+  margin: 0;
+  height: 20%;
+  font-size: 1.5em;
+  text-align: center;
+  font-family: Tahoma;
+}
+
+.saveBuildName {
+  display: block;
+  margin: auto;
+  margin-top: 10px;
+  width: 80%;
+  height: 20%;
+  font-size: 1.2em;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.saveBuildButtonConfirm {
+  display: block;
+  width: 60%;
+  height: 20%;
+  margin: auto;
+  margin-top: 10px;
+  font-size: 1.2em;
+  background: var(--buttonBackground);
+  border-radius: 10px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.saveBuildButtonConfirm:hover {
+  background: var(--buttonBackgroundHover);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+/* ----- Load Builds Modal ----- */
+.loadBuildsModal {
+  background: var(--modalBackground);
+  height: 100%;
+  overflow: auto;
 }
 
-.App-link {
-  color: #61dafb;
+.loadBuildsClose {
+  float: right;
+  width: 10%;
+  height: 10%;
+  font-size: 1.5em;
+  background: var(--buttonBackground);
+  border-radius: 10px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.loadBuildsClose:hover {
+  background: var(--buttonBackgroundHover);
+}
+
+.loadBuildsTitle {
+  clear: both;
+  margin: 0;
+  height: 15%;
+  font-size: 1.5em;
+  text-align: center;
+  font-family: Tahoma;
+}
+
+.loadBuildsList {
+  list-style-type: none;
+  margin: 0;
+  padding-left: 0;
+}
+
+.loadBuildsList .buildName {
+  display: inline-block;
+  border: 1px solid black;
+  margin-bottom: 0.4em;
+  margin-right: 0.4em;
+  margin-left: 0.2em;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  width: 80%;
+  font-size: 1.2em;
+  font-family: Tahoma;
+  text-align: center;
+  background: var(--buttonBackground);
+  border-radius: 10px;
+}
+
+.loadBuildsList .buildName:hover {
+  background: var(--buttonBackgroundHover);
+}
+
+.loadBuildsList .deleteBuild {
+  display: inline-block;
+  background: var(--buttonBackground);
+  width: 10%;
+  text-align: center;
+  font-size: 1.4em;
+}
+
+.loadBuildsList .deleteBuild:hover {
+  display: inline-block;
+  background: var(--buttonBackgroundHover);
+}
+
+.loadBuildsNone {
+  text-align: center;
+  font-size: 1.2em;
+}
+
+/* ----- Node Selections ----- */
+.selectionsPanel {
+  margin-right: 5%;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  padding-bottom: 5%;
+  border: 1px solid white;
+  background: var(--selectionPanelBackground);
+}
+
+.energy {
+  width: 90%;
+  margin: auto;
+  margin-top: 30px;
+  text-align: center;
+  font-size: 1.6em;  
+}
+
+.selectionsList {
+  overflow-y: auto;
+  height: 90%;
+}
+
+.selectionsList p {
+  font-size: 1.2em;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
+.selectionsList div.levelOneSelections {
+  /* background-color: rgba(233, 130, 90, 0.5); */
+}
+.selectionsList div.levelTwoSelections {
+  /* background-color: rgba(200, 40, 220, 0.5); */
+}
+.selectionsList div.levelThreeSelections {
+  /* background-color: rgba(11, 130, 100, 0.5); */
+}
+
+.selectionsList ul {
+  list-style-type: none;
+  margin: 0;
+  padding-left: 15px;
+}
+
+.selectionsList li {
+  font-size: 1.0em;
+  padding-top: 3px;
+}
+
+/* ----- react-hexgrid ----- */
+/* background color of hexagons */
+svg g {
+  fill-opacity: 0.3; 
+}
+svg g:hover { 
+  fill-opacity: 1;
+}
+svg g.activated {
+  fill-opacity: 1;
+}
+
+svg g.stat{
+  fill: var(--statNode);
+}
+svg g.move {
+  fill: var(--moveNode);
+}
+svg g.moveEffect {
+  fill: var(--moveEffectNode);
+}
+svg g.sync {
+  fill: var(--syncNode);
+}
+svg g.passive {
+  fill: var(--passiveNode);
+}
+svg g.stat.activated{
+  
+}
+svg g.move.activated {
+  
+}
+svg g.move-passive.activated {
+
+}
+svg g.sync.activated {
+
+}
+svg g.passive.activated {
+
+}
+
+/* hexagon clicked */
+svg g.activated .hexagon {
+  fill-opacity: 1;
+}
+
+/* outline of hexagons */
+svg g polygon {
+	stroke: var(--hexOutline);
+	stroke-width: 0.1;
+	transition: fill-opacity .5s;
+}
+svg g.activated polygon {
+  stroke-width: 0.6;
+}
+
+/* text inside hexagons */
+svg g text {
+	fill: var(--hexText);
+	fill-opacity: 0.9;
+	transition: fill-opacity .5s;
+  font-size: 0.19em;
+}
+
+svg g text .nodeEnergy {
+  font-size: 0.8em;
+}
+
+/* text inside hexagons, when node move level higher than selected move level */
+svg g.moveLevelGated text {
+  fill-opacity: 0;
 }
